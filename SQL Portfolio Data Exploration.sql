@@ -135,3 +135,23 @@ Where dea.continent is not null
 
 select *
 from PercentPopulationVaccinated
+
+
+--Showing the Contients Percentage of Population Death rate 
+
+
+Select location, MAX(cast(Total_Deaths as int)) as TotalDeathCount, Max(Population) as TotalPoP, SUM(total_deaths/population)*100 as PercentPopDeath
+From [PortfolioProject SQL].dbo.CovidDeaths$
+--Where location like '%states%'
+Where continent is  null
+Group by location
+Order by TotalDeathCount DESC
+
+
+
+
+Select vac.continent, vac.population_density, vac.diabetes_prevalence, Max(dea.new_cases) as totalcases
+from [PortfolioProject SQL].dbo.CovidVaccinations$ vac
+join [PortfolioProject SQL].dbo.CovidDeaths$ dea 
+	on vac.continent = dea.continent
+group by vac.continent, vac.population_density, vac.diabetes_prevalence
